@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quicker.sana.mqjob.mapper.JobRecordMapper">
+  <resultMap id="BaseResultMap" type="com.quicker.sana.mqjob.pojo.JobRecord">
+    <id column="job_record_code" jdbcType="VARCHAR" property="jobRecordCode" />
+    <result column="job_type" jdbcType="VARCHAR" property="jobType" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="mq_queues" jdbcType="VARCHAR" property="mqQueues" />
+    <result column="mq_exchange" jdbcType="VARCHAR" property="mqExchange" />
+    <result column="mq_routing_key" jdbcType="VARCHAR" property="mqRoutingKey" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="done_time" jdbcType="TIMESTAMP" property="doneTime" />
+    <result column="mark_one" jdbcType="VARCHAR" property="markOne" />
+    <result column="mark_two" jdbcType="INTEGER" property="markTwo" />
+    <result column="last_job_response" jdbcType="VARCHAR" property="lastJobResponse" />
+    <result column="last_job_request" jdbcType="VARCHAR" property="lastJobRequest" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      job_record_code, job_type, status, mq_queues, mq_exchange, mq_routing_key, create_time, 
+      update_time, done_time, mark_one, mark_two, last_job_response, last_job_request
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" parameterType="com.quicker.sana.mqjob.pojo.JobRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from job_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null">
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    job_record_code,job_type,status,mq_queues,mq_exchange,mq_routing_key,create_time,update_time,done_time,mark_one,mark_two,last_job_response,last_job_request
+    from job_record
+    where job_record_code = #{jobRecordCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from job_record
+    where job_record_code = #{jobRecordCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.quicker.sana.mqjob.pojo.JobRecordExample">
+    delete from job_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.quicker.sana.mqjob.pojo.JobRecord">
+    insert into job_record (job_record_code, job_type, status, 
+      mq_queues, mq_exchange, mq_routing_key, 
+      create_time, update_time, done_time, 
+      mark_one, mark_two, last_job_response, 
+      last_job_request)
+    values (#{jobRecordCode,jdbcType=VARCHAR}, #{jobType,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{mqQueues,jdbcType=VARCHAR}, #{mqExchange,jdbcType=VARCHAR}, #{mqRoutingKey,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{doneTime,jdbcType=TIMESTAMP}, 
+      #{markOne,jdbcType=VARCHAR}, #{markTwo,jdbcType=INTEGER}, #{lastJobResponse,jdbcType=VARCHAR}, 
+      #{lastJobRequest,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.quicker.sana.mqjob.pojo.JobRecord">
+    insert into job_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jobRecordCode != null">
+        job_record_code,
+      </if>
+      <if test="jobType != null">
+        job_type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="mqQueues != null">
+        mq_queues,
+      </if>
+      <if test="mqExchange != null">
+        mq_exchange,
+      </if>
+      <if test="mqRoutingKey != null">
+        mq_routing_key,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="doneTime != null">
+        done_time,
+      </if>
+      <if test="markOne != null">
+        mark_one,
+      </if>
+      <if test="markTwo != null">
+        mark_two,
+      </if>
+      <if test="lastJobResponse != null">
+        last_job_response,
+      </if>
+      <if test="lastJobRequest != null">
+        last_job_request,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jobRecordCode != null">
+        #{jobRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="jobType != null">
+        #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="mqQueues != null">
+        #{mqQueues,jdbcType=VARCHAR},
+      </if>
+      <if test="mqExchange != null">
+        #{mqExchange,jdbcType=VARCHAR},
+      </if>
+      <if test="mqRoutingKey != null">
+        #{mqRoutingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doneTime != null">
+        #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="markOne != null">
+        #{markOne,jdbcType=VARCHAR},
+      </if>
+      <if test="markTwo != null">
+        #{markTwo,jdbcType=INTEGER},
+      </if>
+      <if test="lastJobResponse != null">
+        #{lastJobResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="lastJobRequest != null">
+        #{lastJobRequest,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.quicker.sana.mqjob.pojo.JobRecordExample" resultType="java.lang.Long">
+    select count(*) from job_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update job_record
+    <set>
+      <if test="record.jobRecordCode != null">
+        job_record_code = #{record.jobRecordCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobType != null">
+        job_type = #{record.jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.mqQueues != null">
+        mq_queues = #{record.mqQueues,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mqExchange != null">
+        mq_exchange = #{record.mqExchange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mqRoutingKey != null">
+        mq_routing_key = #{record.mqRoutingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.doneTime != null">
+        done_time = #{record.doneTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.markOne != null">
+        mark_one = #{record.markOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.markTwo != null">
+        mark_two = #{record.markTwo,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastJobResponse != null">
+        last_job_response = #{record.lastJobResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastJobRequest != null">
+        last_job_request = #{record.lastJobRequest,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update job_record
+    set job_record_code = #{record.jobRecordCode,jdbcType=VARCHAR},
+      job_type = #{record.jobType,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      mq_queues = #{record.mqQueues,jdbcType=VARCHAR},
+      mq_exchange = #{record.mqExchange,jdbcType=VARCHAR},
+      mq_routing_key = #{record.mqRoutingKey,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      done_time = #{record.doneTime,jdbcType=TIMESTAMP},
+      mark_one = #{record.markOne,jdbcType=VARCHAR},
+      mark_two = #{record.markTwo,jdbcType=INTEGER},
+      last_job_response = #{record.lastJobResponse,jdbcType=VARCHAR},
+      last_job_request = #{record.lastJobRequest,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.quicker.sana.mqjob.pojo.JobRecord">
+    update job_record
+    <set>
+      <if test="jobType != null">
+        job_type = #{jobType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="mqQueues != null">
+        mq_queues = #{mqQueues,jdbcType=VARCHAR},
+      </if>
+      <if test="mqExchange != null">
+        mq_exchange = #{mqExchange,jdbcType=VARCHAR},
+      </if>
+      <if test="mqRoutingKey != null">
+        mq_routing_key = #{mqRoutingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doneTime != null">
+        done_time = #{doneTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="markOne != null">
+        mark_one = #{markOne,jdbcType=VARCHAR},
+      </if>
+      <if test="markTwo != null">
+        mark_two = #{markTwo,jdbcType=INTEGER},
+      </if>
+      <if test="lastJobResponse != null">
+        last_job_response = #{lastJobResponse,jdbcType=VARCHAR},
+      </if>
+      <if test="lastJobRequest != null">
+        last_job_request = #{lastJobRequest,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where job_record_code = #{jobRecordCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.quicker.sana.mqjob.pojo.JobRecord">
+    update job_record
+    set job_type = #{jobType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      mq_queues = #{mqQueues,jdbcType=VARCHAR},
+      mq_exchange = #{mqExchange,jdbcType=VARCHAR},
+      mq_routing_key = #{mqRoutingKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      done_time = #{doneTime,jdbcType=TIMESTAMP},
+      mark_one = #{markOne,jdbcType=VARCHAR},
+      mark_two = #{markTwo,jdbcType=INTEGER},
+      last_job_response = #{lastJobResponse,jdbcType=VARCHAR},
+      last_job_request = #{lastJobRequest,jdbcType=VARCHAR}
+    where job_record_code = #{jobRecordCode,jdbcType=VARCHAR}
+  </update>
+</mapper>
